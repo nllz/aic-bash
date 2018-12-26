@@ -19,6 +19,8 @@ FILE_RESPONSE="/tmp/aic-bash.json"
 
 API_URL='https://aggregator-data.artic.edu/api/v1/search'
 
+SPH='S' # &nbsp; placeholder
+
 OPT_FILL='--fill' # fill background by default
 OPT_SIZE='843' # default for artwork detail pages
 
@@ -213,7 +215,7 @@ INPUT="${INPUT::${#INPUT}-5}" # <br/>
 
 # Replace &nbsp; with a placeholder character that's not in the character map
 # https://github.com/cslarsen/jp2a/blob/61d205f6959d88e0cc8d8879fe7d66eb0932ecca/src/options.c#L69
-INPUT="${INPUT//&nbsp;/&}"
+INPUT="${INPUT//&nbsp;/$SPH}"
 
 # Replace <br/> with actual newlines
 INPUT="${INPUT//<br\/>/$'\n'}"
@@ -248,7 +250,7 @@ if [ ! "$OPT_FILL" = '--fill' ]; then
                     B="$(( 16#${COL[2]} ))"
 
                     # Get character and fix spaces
-                    C="${COL[3]//&/ }"
+                    C="${COL[3]//$SPH/ }"
 
                     #  https://gist.github.com/XVilka/8346728
                     OUTPUT+="\033[38;2;${R};${G};${B}m${C}"
@@ -295,7 +297,7 @@ else
                     B="$(( 16#${COL[2]} ))"
 
                     # Get character and fix spaces
-                    C="${COL[6]//&/ }"
+                    C="${COL[6]//$SPH/ }"
 
                     # https://gist.github.com/XVilka/8346728
                     OUTPUT+="\033[38;2;${R};${G};${B}m${C}"
